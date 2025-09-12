@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const metadata = {
   title: "Serviços | Cunha Hedge",
@@ -139,7 +140,7 @@ export default function Servicos() {
             </a>
           </Button>
           <Button variant="outline" asChild>
-            <a href="/contato">Ver contato</a>
+            <Link href="/contato">Ver contato</Link>
           </Button>
         </div>
       </div>

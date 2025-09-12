@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
           </p>
           <div className="mt-6 flex gap-3">
             <Button asChild><a href="https://wa.me/5569993737919?text=Quero%20uma%20consulta">Falar no WhatsApp</a></Button>
-            <Button variant="outline" asChild><a href="/servicos">Ver serviços</a></Button>
+            <Button variant="outline" asChild><Link href="/servicos">Ver serviços</Link></Button>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">Base RO x SP, gestão de risco e estratégias com opções.</p>
         </div>
@@ -65,7 +66,7 @@ export default function Home() {
               <a href="https://wa.me/5569993737919?text=Quero%20falar%20com%20a%20Cunha%20Hedge">Chamar no WhatsApp</a>
             </Button>
             <Button variant="outline" asChild size="lg" className="border-white text-white hover:bg-white hover:text-primary">
-              <a href="/contato">Ver contato</a>
+              <Link href="/contato">Ver contato</Link>
             </Button>
           </div>
         </div>
