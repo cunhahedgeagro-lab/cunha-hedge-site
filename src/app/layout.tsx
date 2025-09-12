@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/servicos" className="text-gray-600 hover:text-primary transition-colors font-medium">Serviços</Link>
               <Link href="/contato" className="font-semibold text-primary hover:text-primary/80 bg-primary/10 px-4 py-2 rounded-lg">Contato</Link>
             </nav>
-            <a href="https://wa.me/5569993737919?text=Olá%20Cunha%20Hedge" className="md:hidden text-sm text-primary underline font-medium">WhatsApp</a>
+            <a href="https://wa.me/5569993737919?text=Olá%20Cunha%20Hedge" className="md:hidden text-sm text-primary underline font-medium" target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
         </header>
         <main>{children}</main>

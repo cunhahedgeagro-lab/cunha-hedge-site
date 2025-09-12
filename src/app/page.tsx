@@ -16,7 +16,7 @@ export default function Home() {
             Atuação especializada em Rondônia.
           </p>
           <div className="mt-6 flex gap-3">
-            <Button asChild><a href="https://wa.me/5569993737919?text=Quero%20uma%20consulta">Falar no WhatsApp</a></Button>
+            <Button asChild><a href="https://wa.me/5569993737919?text=Quero%20uma%20consulta" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a></Button>
             <Button variant="outline" asChild><Link href="/servicos">Ver serviços</Link></Button>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">Base RO x SP, gestão de risco e estratégias com opções.</p>
@@ -63,7 +63,7 @@ export default function Home() {
           <p className="text-lg text-green-100 mb-8">Atendimento em Buritis-RO e região.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-white text-primary hover:bg-green-50">
-              <a href="https://wa.me/5569993737919?text=Quero%20falar%20com%20a%20Cunha%20Hedge">Chamar no WhatsApp</a>
+              <a href="https://wa.me/5569993737919?text=Quero%20falar%20com%20a%20Cunha%20Hedge" target="_blank" rel="noopener noreferrer">Chamar no WhatsApp</a>
             </Button>
             <Button variant="outline" asChild size="lg" className="border-white text-white hover:bg-white hover:text-primary">
               <Link href="/contato">Ver contato</Link>

@@ -118,6 +118,8 @@ export default function Contato() {
                       <a 
                         href="https://wa.me/5569993737919" 
                         className="text-primary hover:text-primary/80 font-medium"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         (69) 9 9373-7919
                       </a>
@@ -127,6 +129,8 @@ export default function Contato() {
                       <a 
                         href="https://wa.me/5569993521220" 
                         className="text-primary hover:text-primary/80 font-medium"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         (69) 9 9352-1220
                       </a>
@@ -139,6 +143,8 @@ export default function Contato() {
                   <a 
                     href="mailto:cunhahedgeagro@gmail.com" 
                     className="text-gray-600 hover:text-primary"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     cunhahedgeagro@gmail.com
                   </a>
@@ -180,7 +186,11 @@ export default function Contato() {
           Entre em contato via WhatsApp para atendimento imediato.
         </p>
         <Button asChild size="lg">
-          <a href="https://wa.me/5569993737919?text=Olá%20Cunha%20Hedge,%20gostaria%20de%20mais%20informações">
+          <a 
+            href="https://wa.me/5569993737919?text=Olá%20Cunha%20Hedge,%20gostaria%20de%20mais%20informações"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Falar no WhatsApp
           </a>
         </Button>
