@@ -16,10 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/">
               <Logo size="md" />
             </Link>
-            <nav className="gap-8 hidden md:flex">
-              <Link href="/quem-somos" className="text-gray-600 hover:text-primary transition-colors font-medium">Quem somos</Link>
-              <Link href="/servicos" className="text-gray-600 hover:text-primary transition-colors font-medium">Serviços</Link>
-              <Link href="/contato" className="font-semibold text-primary hover:text-primary/80 bg-primary/10 px-4 py-2 rounded-lg">Contato</Link>
+            <nav className="hidden md:flex items-center gap-8">
+              <Link href="/quem-somos" className="inline-flex items-center h-10 text-gray-600 hover:text-primary transition-colors font-medium">Quem somos</Link>
+              <Link href="/servicos" className="inline-flex items-center h-10 text-gray-600 hover:text-primary transition-colors font-medium">Serviços</Link>
+              <Link href="/contato" className="inline-flex items-center h-10 font-semibold text-primary hover:text-primary/80 bg-primary/10 px-4 rounded-lg">Contato</Link>
             </nav>
             <a href="https://wa.me/5569993737919?text=Olá%20Cunha%20Hedge" className="md:hidden text-sm text-primary underline font-medium" target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
