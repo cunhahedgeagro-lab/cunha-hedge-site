@@ -44,35 +44,28 @@ export default function QuemSomos() {
 
       <div className="mb-12">
         <h2 className="text-2xl font-semibold mb-6 text-center">Nossa Equipe</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="font-semibold text-lg mb-2">Zootecnista</h3>
-              <p className="text-zinc-600 mb-3">
-                Especialista em produção animal e gestão pecuária, com ampla experiência 
-                em análise de custos e produtividade no campo.
+        <Card>
+          <CardContent className="p-6">
+            <div className="space-y-4 text-zinc-700">
+              <p>
+                Na Cunha Hedge, unimos conhecimento técnico e paixão pelo agronegócio. 
+                <strong>Diego Martins, Engenheiro Agrônomo</strong>, e 
+                <strong> Marcos Roberto, Zootecnista</strong>, somam suas experiências para oferecer uma 
+                assessoria completa e confiável ao produtor rural.
               </p>
-              <p className="text-sm text-zinc-500">
-                Responsável por análises técnicas, cálculo de custos por arroba e 
-                definição de pontos de equilíbrio.
+              <p>
+                Nossa equipe acredita que a força do campo está em aliar tradição e inovação. 
+                Com olhar atento às particularidades da região e às dinâmicas do mercado, 
+                trabalhamos para transformar desafios em oportunidades, levando mais segurança, 
+                clareza e eficiência para cada decisão.
               </p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="font-semibold text-lg mb-2">Engenheiro Agrônomo</h3>
-              <p className="text-zinc-600 mb-3">
-                Profissional com expertise em gestão rural, crédito agrícola e 
-                análise de viabilidade de projetos agropecuários.
+              <p className="text-zinc-600">
+                Mais do que números, entregamos confiança e proximidade, sempre com o objetivo 
+                de garantir resultados sólidos e sustentáveis para quem vive da pecuária e da agricultura.
               </p>
-              <p className="text-sm text-zinc-500">
-                Responsável por estruturação de propostas de crédito, análise de 
-                risco e acompanhamento com instituições financeiras.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="bg-zinc-50 rounded-2xl p-8 text-center">
