@@ -10,18 +10,6 @@ export const metadata = {
 export default function Servicos() {
   const servicos = [
     {
-      titulo: "Hedge Pecuário",
-      descricao: "Proteção de preço através de estratégias com opções e futuros",
-      detalhes: [
-        "Travas de preço com opções de compra e venda",
-        "Estratégias com futuros de boi gordo",
-        "Análise de base RO x SP",
-        "Gestão de margem e risco",
-        "Acompanhamento de posições"
-      ],
-      beneficios: "Reduza o risco de oscilação de preços e garanta margem mínima na venda do seu gado."
-    },
-    {
       titulo: "Crédito Rural",
       descricao: "Estruturação e acompanhamento de propostas de financiamento",
       detalhes: [
@@ -32,6 +20,18 @@ export default function Servicos() {
         "Gestão de documentação"
       ],
       beneficios: "Aumente suas chances de aprovação e obtenha as melhores condições de financiamento."
+    },
+    {
+      titulo: "Hedge Pecuário",
+      descricao: "Proteção de preço através de estratégias com opções e futuros",
+      detalhes: [
+        "Travas de preço com opções de compra e venda",
+        "Estratégias com futuros de boi gordo",
+        "Análise de base RO x SP",
+        "Gestão de margem e risco",
+        "Acompanhamento de posições"
+      ],
+      beneficios: "Reduza o risco de oscilação de preços e garanta margem mínima na venda do seu gado."
     },
     {
       titulo: "Análise de Risco",
