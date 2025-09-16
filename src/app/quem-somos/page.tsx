@@ -48,10 +48,7 @@ export default function QuemSomos() {
           <CardContent className="p-6">
             <div className="space-y-4 text-zinc-700">
               <p>
-                Na Cunha Hedge, unimos conhecimento técnico e paixão pelo agronegócio. 
-                <strong>Diego Martins, Engenheiro Agrônomo</strong>, e 
-                <strong> Marcos Roberto, Zootecnista</strong>, somam suas experiências para oferecer uma 
-                assessoria completa e confiável ao produtor rural.
+                Na Cunha Hedge, unimos conhecimento técnico e paixão pelo agronegócio. Diego Martins, Engenheiro Agrônomo, e Marcos Roberto, Zootecnista, somam suas experiências para oferecer uma assessoria completa e confiável ao produtor rural.
               </p>
               <p>
                 Nossa equipe acredita que a força do campo está em aliar tradição e inovação. 
