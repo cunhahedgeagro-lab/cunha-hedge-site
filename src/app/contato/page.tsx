@@ -97,7 +97,7 @@ export default function Contato() {
                   />
                 </div>
                 
-                <Button type="submit" className="w-full bg-green-600 text-white hover:bg-green-700">
+                <Button type="submit" className="w-full bg-green-600 text-white hover:bg-green-700 cursor-pointer">
                   Enviar Mensagem
                 </Button>
               </form>

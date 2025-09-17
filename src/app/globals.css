@@ -123,11 +123,11 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm;
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm cursor-pointer;
   }
   
   .btn-outline {
-    @apply border border-primary text-primary bg-white hover:bg-primary/10 hover:text-primary/90;
+    @apply border border-primary text-primary bg-white hover:bg-primary/10 hover:text-primary/90 cursor-pointer;
   }
   
   .card-service {
