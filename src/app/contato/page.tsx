@@ -191,7 +191,7 @@ export default function Contato() {
         <p className="text-zinc-600 mb-6">
           Entre em contato via WhatsApp para atendimento imediato.
         </p>
-        <Button asChild size="lg">
+        <Button asChild size="lg" className="bg-green-600 text-white hover:bg-green-700">
           <a 
             href="https://wa.me/5569993737919?text=Olá%20Cunha%20Hedge,%20gostaria%20de%20mais%20informações"
             target="_blank"
