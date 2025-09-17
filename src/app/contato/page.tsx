@@ -169,10 +169,11 @@ export default function Contato() {
               <div className="aspect-video rounded-lg overflow-hidden border">
                 <iframe
                   className="w-full h-full"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3926.731749139096!2d-63.83038902421587!3d-10.202425910309758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93cd0972294840df%3A0x5ba04478f362d029!2sCUNHA%20HEDGE%20Cr%C3%A9dito%20Rural%20e%20Hedge%20Pecu%C3%A1rio!5e0!3m2!1spt-BR!2sbr!4v1758139302227!5m2!1spt-BR!2sbr"
+                  style={{ border: 0 }}
+                  allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  src="https://www.google.com/maps?q=Av.%20Porto%20Velho%202041%2C%20Setor%2004%2C%20Buritis%20-%20RO&output=embed"
-                  allowFullScreen
                 />
               </div>
               <p className="text-sm text-zinc-600 mt-3">
