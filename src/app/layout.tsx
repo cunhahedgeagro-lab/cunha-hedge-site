@@ -6,6 +6,11 @@ import MobileMenu from "@/components/MobileMenu";
 export const metadata = {
   title: "Cunha Hedge | Crédito Rural e Hedge Pecuário",
   description: "Consultoria financeira e agropecuária em Rondônia: crédito rural, proteção de preço e gestão de risco.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
