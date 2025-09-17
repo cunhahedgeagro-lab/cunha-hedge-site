@@ -166,10 +166,14 @@ export default function Contato() {
           <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Localização</h2>
-              <div className="aspect-video bg-zinc-100 rounded-lg flex items-center justify-center">
-                <p className="text-zinc-500 text-sm">
-                  Mapa do Google será inserido aqui
-                </p>
+              <div className="aspect-video rounded-lg overflow-hidden border">
+                <iframe
+                  className="w-full h-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Av.%20Porto%20Velho%202041%2C%20Setor%2004%2C%20Buritis%20-%20RO&output=embed"
+                  allowFullScreen
+                />
               </div>
               <p className="text-sm text-zinc-600 mt-3">
                 Atendemos produtores em Buritis-RO e toda a região. 
