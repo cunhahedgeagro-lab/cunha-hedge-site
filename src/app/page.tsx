@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import PhoneInput from "@/components/PhoneInput";
 
 export default function Home() {
   return (
@@ -33,7 +34,7 @@ export default function Home() {
           </div>
           <form className="grid gap-3" action="https://formspree.io/f/myzdqlby" method="POST">
             <input className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="nome" placeholder="Seu nome" required />
-            <input className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="whatsapp" placeholder="WhatsApp" required />
+            <PhoneInput className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="whatsapp" placeholder="(69) 99999-9999" required />
             <textarea className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="mensagem" placeholder="Conte brevemente sua operação" rows={3}/>
             <Button type="submit" className="btn-primary">Quero meu diagnóstico</Button>
           </form>
