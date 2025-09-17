@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import PhoneInput from "@/components/PhoneInput";
 import { Textarea } from "@/components/ui/textarea";
 
 export const metadata = {
@@ -43,7 +44,7 @@ export default function Contato() {
                     <label htmlFor="telefone" className="block text-sm font-medium mb-1">
                       Telefone/WhatsApp *
                     </label>
-                    <Input
+                    <PhoneInput
                       id="telefone"
                       name="telefone"
                       placeholder="(69) 99999-9999"
