@@ -26,7 +26,7 @@ export default function Contato() {
           <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Envie sua mensagem</h2>
-              <form className="space-y-4" action="https://formspree.io/f/SEU_ENDPOINT" method="POST">
+              <form className="space-y-4" action="https://formspree.io/f/myzdqlby" method="POST">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="nome" className="block text-sm font-medium mb-1">

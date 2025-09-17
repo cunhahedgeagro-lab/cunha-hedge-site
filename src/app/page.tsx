@@ -31,7 +31,7 @@ export default function Home() {
             <p className="font-semibold text-brand text-lg">Diagnóstico gratuito</p>
             <p className="text-sm text-muted-foreground">Entenda seu ponto de equilíbrio e qual preço travar.</p>
           </div>
-          <form className="grid gap-3" action="https://formspree.io/f/SEU_ENDPOINT" method="POST">
+          <form className="grid gap-3" action="https://formspree.io/f/myzdqlby" method="POST">
             <input className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="nome" placeholder="Seu nome" required />
             <input className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="whatsapp" placeholder="WhatsApp" required />
             <textarea className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="mensagem" placeholder="Conte brevemente sua operação" rows={3}/>
