@@ -1,8 +1,10 @@
 "use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import PhoneInput from "@/components/PhoneInput";
 
 export default function Home() {
   return (
@@ -97,12 +99,11 @@ function FormDiagnostico() {
       />
 
       {/* Telefone */}
-      <input
-        className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none"
-        type="tel"
+      <PhoneInput
         name="whatsapp"
-        placeholder="(69) 99999-9999"
         required
+        className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none"
+        placeholder="(69) 99999-9999"
       />
 
       {/* Operação */}
