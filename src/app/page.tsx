@@ -1,7 +1,8 @@
+"use client";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import PhoneInput from "@/components/PhoneInput";
 
 export default function Home() {
   return (
@@ -30,14 +31,9 @@ export default function Home() {
               <span className="text-white font-bold text-lg">✓</span>
             </div>
             <p className="font-semibold text-brand text-lg">Diagnóstico gratuito</p>
-            <p className="text-sm text-muted-foreground">Entenda seu ponto de equilíbrio e qual preço travar.</p>
+            <p className="text-sm text-muted-foreground">Conte-nos a sua necessidade.</p>
           </div>
-          <form className="grid gap-3" action="https://formspree.io/f/myzdqlby" method="POST">
-            <input className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="nome" placeholder="Seu nome" required />
-            <PhoneInput className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="whatsapp" placeholder="(69) 99999-9999" required />
-            <textarea className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none" name="mensagem" placeholder="Conte brevemente sua operação" rows={3}/>
-            <Button type="submit" className="btn-primary">Quero meu diagnóstico</Button>
-          </form>
+          <FormDiagnostico />
         </div>
       </section>
 
@@ -75,5 +71,81 @@ export default function Home() {
         </div>
       </section>
     </div>
+  );
+}
+
+function FormDiagnostico() {
+  const [necessidade, setNecessidade] = React.useState("");
+  const [volume, setVolume] = React.useState("");
+
+  let volumePlaceholder = "";
+  if (necessidade === "Travar preço do boi gordo") {
+    volumePlaceholder = "Ex.: 50 bois prontos para abate em 60 dias.";
+  } else if (necessidade === "Crédito para custeio ou investimento") {
+    volumePlaceholder = "Ex.: R$ 80.000 para investimento em reforma de pastagem";
+  }
+
+  return (
+    <form className="grid gap-3" action="https://formspree.io/f/myzdqlby" method="POST">
+      {/* Nome */}
+      <input
+        className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none"
+        type="text"
+        name="nome"
+        placeholder="Seu nome"
+        required
+      />
+
+      {/* Telefone */}
+      <input
+        className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none"
+        type="tel"
+        name="whatsapp"
+        placeholder="(69) 99999-9999"
+        required
+      />
+
+      {/* Operação */}
+      <textarea
+        className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none"
+        name="operacao"
+        placeholder={"Qual a sua operação?\nEx.: 80 bois em engorda, 200 matrizes em cria, 50 ha de milho, 20 ha de café..."}
+        rows={3}
+      />
+
+      {/* Necessidade */}
+      <select
+        className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none"
+        name="necessidade"
+        required
+        value={necessidade}
+        onChange={e => {
+          setNecessidade(e.target.value);
+          setVolume("");
+        }}
+      >
+        <option value="">Selecione sua necessidade</option>
+        <option value="Travar preço do boi gordo">Travar preço do boi gordo</option>
+        <option value="Crédito para custeio ou investimento">Crédito para custeio ou investimento</option>
+      </select>
+
+      {/* Volume */}
+      {necessidade && (
+        <input
+          className="border border-primary/30 rounded-lg px-3 py-2 focus:border-primary focus:outline-none"
+          type="text"
+          name="volume"
+          placeholder={volumePlaceholder}
+          value={volume}
+          onChange={e => setVolume(e.target.value)}
+          required
+        />
+      )}
+
+      {/* Botão */}
+      <Button type="submit" className="btn-primary">
+        Quero meu diagnóstico
+      </Button>
+    </form>
   );
 }
