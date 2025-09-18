@@ -134,15 +134,15 @@ export default function Servicos() {
           como podemos ajudar sua operação.
         </p>
         <div className="flex gap-4 justify-center">
-          <Button asChild>
-            <a 
-              href="https://wa.me/5569993737919?text=Quero%20conhecer%20os%20serviços"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Falar no WhatsApp
-            </a>
-          </Button>
+            <Button variant="outline" asChild>
+              <a 
+                href="https://wa.me/5569993737919?text=Quero%20conhecer%20os%20serviços"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Falar no WhatsApp
+              </a>
+            </Button>
           <Button variant="outline" asChild>
             <Link href="/contato">Ver contato</Link>
           </Button>
