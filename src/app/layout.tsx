@@ -1,7 +1,9 @@
 import "./globals.css";
 import { Logo } from "@/components/Logo";
 import Link from "next/link";
+
 import MobileMenu from "@/components/MobileMenu";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
   title: "Cunha Hedge | Crédito Rural e Hedge Pecuário",
@@ -44,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
