@@ -17,18 +17,24 @@ function formatBrazilPhone(raw: string): string {
   return `(${digits.slice(0, 2)}) ${middle}-${end}`;
 }
 
-export function PhoneInput({ value, onChange, ...props }: PhoneInputProps) {
+export function PhoneInput({
+  value,
+  defaultValue,
+  onChange,
+  ...props
+}: PhoneInputProps) {
+  const controlledValue = typeof value === "string" ? value : undefined;
   const [internal, setInternal] = React.useState<string>(
-    typeof value === "string" ? value : ""
+    typeof defaultValue === "string" ? formatBrazilPhone(defaultValue) : ""
   );
-
-  React.useEffect(() => {
-    if (typeof value === "string") setInternal(value);
-  }, [value]);
+  const displayValue =
+    controlledValue !== undefined ? formatBrazilPhone(controlledValue) : internal;
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const formatted = formatBrazilPhone(e.target.value);
-    setInternal(formatted);
+    if (controlledValue === undefined) {
+      setInternal(formatted);
+    }
     if (onChange) {
       // Create a synthetic event with formatted value
       const event = {
@@ -45,7 +51,7 @@ export function PhoneInput({ value, onChange, ...props }: PhoneInputProps) {
       inputMode="numeric"
       autoComplete="tel"
       maxLength={16}
-      value={internal}
+      value={displayValue}
       onChange={handleChange}
       {...props}
     />
