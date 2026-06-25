@@ -27,7 +27,7 @@ const links = [
   {
     label: "Acessar Instagram",
     description: "Acompanhe a Cunha Hedge",
-    href: "https://www.instagram.com/cunhahedge/",
+    href: "https://www.instagram.com/cunha_hedge/",
     icon: Instagram,
     className: "border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50",
     iconClassName: "bg-zinc-100 text-zinc-700",
