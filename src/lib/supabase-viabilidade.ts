@@ -28,7 +28,7 @@ function getSupabaseConfig() {
   }
 
   return {
-    url: url.replace(/\/$/, ""),
+    url: url.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, ""),
     key,
   };
 }
