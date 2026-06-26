@@ -60,6 +60,9 @@ export function MobileMenu() {
               <Link href="/servicos" className="py-2 text-gray-700 hover:text-primary" onClick={() => setOpen(false)}>
                 Serviços
               </Link>
+              <Link href="/viabilidade-pecuaria" className="py-2 text-gray-700 hover:text-primary" onClick={() => setOpen(false)}>
+                Viabilidade pecuária
+              </Link>
               <Link href="/contato" className="py-2 text-gray-700 hover:text-primary" onClick={() => setOpen(false)}>
                 Contato
               </Link>

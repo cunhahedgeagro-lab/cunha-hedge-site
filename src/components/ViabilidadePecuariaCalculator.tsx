@@ -13,7 +13,20 @@ import {
 } from "@/lib/cattle-viability";
 
 function cloneDefaultInput(): CattleViabilityInput {
-  return { ...defaultCattleViabilityInput };
+  return { ...defaultCattleViabilityInput, initialDate: getTodayDateInputValue() };
+}
+
+function getTodayDateInputValue(): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Manaus",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+  const year = parts.find((part) => part.type === "year")?.value ?? "2026";
+  const month = parts.find((part) => part.type === "month")?.value ?? "01";
+  const day = parts.find((part) => part.type === "day")?.value ?? "01";
+  return `${year}-${month}-${day}`;
 }
 
 function parseNumber(value: string): number {
@@ -60,6 +73,7 @@ type NumberFieldProps = {
   onChange: (value: number) => void;
   step?: string;
   suffix?: string;
+  blankWhenZero?: boolean;
 };
 
 function NumberField({
@@ -68,7 +82,15 @@ function NumberField({
   onChange,
   step = "0.01",
   suffix,
+  blankWhenZero = false,
 }: NumberFieldProps) {
+  const initialValue =
+    blankWhenZero && value === 0
+      ? ""
+      : Number.isFinite(value)
+        ? String(value)
+        : "";
+
   return (
     <label className="grid gap-1.5">
       <span className="text-sm font-medium text-zinc-700">{label}</span>
@@ -77,7 +99,7 @@ function NumberField({
           type="number"
           inputMode="decimal"
           step={step}
-          defaultValue={Number.isFinite(value) ? String(value) : ""}
+          defaultValue={initialValue}
           onChange={(event) => onChange(parseNumber(event.target.value))}
           className={suffix ? "pr-12" : undefined}
         />
@@ -110,6 +132,7 @@ type IntakeFieldProps = {
   value: number;
   unit: CattleViabilityInput["intakeUnit"];
   helperText: string;
+  blankWhenZero?: boolean;
   onValueChange: (value: number) => void;
   onUnitChange: (unit: CattleViabilityInput["intakeUnit"]) => void;
 };
@@ -118,9 +141,17 @@ function IntakeField({
   value,
   unit,
   helperText,
+  blankWhenZero = false,
   onValueChange,
   onUnitChange,
 }: IntakeFieldProps) {
+  const initialValue =
+    blankWhenZero && value === 0
+      ? ""
+      : Number.isFinite(value)
+        ? String(value)
+        : "";
+
   return (
     <label className="grid gap-1.5">
       <span className="text-sm font-medium text-zinc-700">
@@ -131,7 +162,7 @@ function IntakeField({
           type="number"
           inputMode="decimal"
           step={unit === "percentLiveWeight" ? "0.01" : "0.001"}
-          defaultValue={Number.isFinite(value) ? String(value) : ""}
+          defaultValue={initialValue}
           onChange={(event) => onValueChange(parseNumber(event.target.value))}
         />
         <select
@@ -591,7 +622,7 @@ export default function ViabilidadePecuariaCalculator() {
   }
 
   function generateReport() {
-    const logoUrl = `${window.location.origin}/images/logo.svg`;
+    const logoUrl = `${window.location.origin}/images/logo-transparent.png`;
     const reportHtml = buildReportHtml({
       input,
       result,
@@ -635,14 +666,6 @@ export default function ViabilidadePecuariaCalculator() {
         <div className="flex flex-col gap-2 sm:flex-row">
           <Button
             type="button"
-            onClick={generateReport}
-            className="h-10 bg-primary text-white hover:bg-primary/90"
-          >
-            <FileText className="size-4" />
-            Gerar relatório
-          </Button>
-          <Button
-            type="button"
             variant="outline"
             onClick={resetInput}
             className="h-10 border-primary/30 text-primary hover:bg-primary/10"
@@ -668,6 +691,7 @@ export default function ViabilidadePecuariaCalculator() {
                 onChange={(value) => update("lotSize", value)}
                 step="1"
                 suffix="cab"
+                blankWhenZero
               />
               <label className="grid gap-1.5">
                 <span className="text-sm font-medium text-zinc-700">
@@ -696,12 +720,14 @@ export default function ViabilidadePecuariaCalculator() {
                 value={input.initialLiveWeightKg}
                 onChange={(value) => update("initialLiveWeightKg", value)}
                 suffix="kg"
+                blankWhenZero
               />
               <NumberField
                 label="Peso vivo final"
                 value={input.finalLiveWeightKg}
                 onChange={(value) => update("finalLiveWeightKg", value)}
                 suffix="kg"
+                blankWhenZero
               />
               <NumberField
                 label="Rendimento de carcaça"
@@ -715,12 +741,14 @@ export default function ViabilidadePecuariaCalculator() {
                 value={input.initialArrobaPrice}
                 onChange={(value) => update("initialArrobaPrice", value)}
                 suffix="R$"
+                blankWhenZero
               />
               <NumberField
                 label="Preço @ venda"
                 value={input.saleArrobaPrice}
                 onChange={(value) => update("saleArrobaPrice", value)}
                 suffix="R$"
+                blankWhenZero
               />
             </div>
           </Section>
@@ -762,6 +790,7 @@ export default function ViabilidadePecuariaCalculator() {
                     }
                     step="0.01"
                     suffix="R$/dia"
+                    blankWhenZero
                   />
                   <div className="rounded-lg bg-zinc-50 px-4 py-3">
                     <p className="text-sm text-zinc-600">Custo no ciclo/cab</p>
@@ -784,11 +813,13 @@ export default function ViabilidadePecuariaCalculator() {
                       onChange={(value) => update("supplementCostPerKg", value)}
                       step="0.01"
                       suffix="R$/kg"
+                      blankWhenZero
                     />
                     <IntakeField
                       value={input.intakeValue}
                       unit={input.intakeUnit}
                       helperText={intakeHelperText}
+                      blankWhenZero
                       onValueChange={(value) => update("intakeValue", value)}
                       onUnitChange={(unit) => update("intakeUnit", unit)}
                     />
@@ -840,6 +871,7 @@ export default function ViabilidadePecuariaCalculator() {
                 onChange={(value) => update("insuranceCostPerArroba", value)}
                 step="0.01"
                 suffix="R$/@"
+                blankWhenZero
               />
               <NumberField
                 label="Financiado animais"
@@ -847,6 +879,7 @@ export default function ViabilidadePecuariaCalculator() {
                 onChange={(value) => update("financedAnimalsValue", value)}
                 step="100"
                 suffix="R$"
+                blankWhenZero
               />
               <NumberField
                 label="Financiado suplementação"
@@ -861,6 +894,7 @@ export default function ViabilidadePecuariaCalculator() {
                 onChange={(value) => update("annualInterestRatePercent", value)}
                 step="0.01"
                 suffix="%"
+                blankWhenZero
               />
             </div>
           </Section>
@@ -972,6 +1006,18 @@ export default function ViabilidadePecuariaCalculator() {
             </CardContent>
           </Card>
         </aside>
+      </div>
+
+      <div className="mt-8 flex justify-center border-t border-primary/20 pt-8">
+        <Button
+          type="button"
+          onClick={generateReport}
+          size="lg"
+          className="h-11 bg-primary px-6 text-white hover:bg-primary/90"
+        >
+          <FileText className="size-4" />
+          Gerar relatório
+        </Button>
       </div>
     </div>
   );

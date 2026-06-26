@@ -25,7 +25,7 @@ export function Logo({ className = '', showText = true, size = 'md' }: LogoProps
       {/* Logo SVG */}
       <div className={`${sizeClasses[size]} relative`}>
         <Image
-          src="/images/logo.svg"
+          src="/images/logo-transparent.png"
           alt="Cunha Hedge Logo"
           fill
           className="object-contain"

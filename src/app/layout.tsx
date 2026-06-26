@@ -27,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav className="hidden md:flex items-center gap-8">
               <Link href="/quem-somos" className="inline-flex items-center h-10 text-gray-600 hover:text-primary transition-colors font-medium">Quem somos</Link>
               <Link href="/servicos" className="inline-flex items-center h-10 text-gray-600 hover:text-primary transition-colors font-medium">Serviços</Link>
+              <Link href="/viabilidade-pecuaria" className="inline-flex items-center h-10 text-gray-600 hover:text-primary transition-colors font-medium">Viabilidade pecuária</Link>
               <Link href="/contato" className="inline-flex items-center h-10 font-semibold text-primary hover:text-primary/80 bg-primary/10 px-4 rounded-lg">Contato</Link>
             </nav>
             <MobileMenu />

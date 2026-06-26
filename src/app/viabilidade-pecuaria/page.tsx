@@ -1,5 +1,7 @@
 import ViabilidadePecuariaCalculator from "@/components/ViabilidadePecuariaCalculator";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Simulador de Viabilidade Pecuária | Cunha Hedge",
   description:
