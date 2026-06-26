@@ -1,4 +1,4 @@
-import ViabilidadePecuariaCalculator from "@/components/ViabilidadePecuariaCalculator";
+import ViabilidadePecuariaAccess from "@/components/ViabilidadePecuariaAccess";
 
 export const dynamic = "force-dynamic";
 
@@ -9,5 +9,5 @@ export const metadata = {
 };
 
 export default function ViabilidadePecuariaPage() {
-  return <ViabilidadePecuariaCalculator />;
+  return <ViabilidadePecuariaAccess />;
 }
