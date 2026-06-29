@@ -207,7 +207,7 @@ export function calculateCattleViability(
       productionCostPerHead +
       totalInsuranceCostPerHead +
       interestCostPerHead,
-    finalLiveArrobas
+    finalCarcassArrobas
   );
   const salePriceSpreadToBreakeven =
     input.saleArrobaPrice - breakevenPerSoldArroba;
