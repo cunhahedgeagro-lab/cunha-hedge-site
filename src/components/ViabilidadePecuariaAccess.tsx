@@ -23,7 +23,6 @@ type RegistrationForm = {
   city: string;
   state: string;
   herdSizeRange: string;
-  herdSizeExact: string;
   cattleRoles: string[];
   otherRole: string;
   consent: boolean;
@@ -37,7 +36,6 @@ const emptyRegistrationForm: RegistrationForm = {
   city: "",
   state: "",
   herdSizeRange: "",
-  herdSizeExact: "",
   cattleRoles: [],
   otherRole: "",
   consent: false,
@@ -166,7 +164,6 @@ export default function ViabilidadePecuariaAccess() {
           city: registration.city,
           state: registration.state,
           herdSizeRange: registration.herdSizeRange,
-          herdSizeExact: registration.herdSizeExact,
           cattleRoles: registration.cattleRoles,
           otherRole: registration.otherRole,
           consent: registration.consent,
@@ -377,20 +374,6 @@ export default function ViabilidadePecuariaAccess() {
                   ))}
                 </div>
               </fieldset>
-
-              <label className="grid gap-1.5">
-                <FieldLabel>Quantidade aproximada de animais</FieldLabel>
-                <Input
-                  type="number"
-                  min="0"
-                  step="1"
-                  value={registration.herdSizeExact}
-                  onChange={(event) =>
-                    updateRegistration("herdSizeExact", event.target.value)
-                  }
-                  inputMode="numeric"
-                />
-              </label>
 
               <fieldset className="grid gap-3">
                 <legend className="text-sm font-semibold text-zinc-900">
