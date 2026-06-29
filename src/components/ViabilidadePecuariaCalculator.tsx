@@ -519,7 +519,8 @@ function buildReportHtml({
               ["Peso vivo inicial", `${formatNumber(input.initialLiveWeightKg, 2)} kg`],
               ["Peso vivo final", `${formatNumber(input.finalLiveWeightKg, 2)} kg`],
               ["Peso vivo médio", `${formatNumber(result.averageLiveWeightKg, 2)} kg`],
-              ["Rendimento de carcaça", `${formatNumber(input.carcassYieldPercent, 2)}%`],
+              ["Rendimento de carcaça final", `${formatNumber(input.carcassYieldPercent, 2)}%`],
+              ["Premissa carcaça inicial", `${formatNumber(result.initialCarcassWeightKg, 2)} kg (50% PV inicial)`],
               ["Peso de carcaça estimado", `${formatNumber(result.finalCarcassWeightKg, 2)} kg`],
               ["@ produzidas", formatNumber(result.producedArrobas, 2)],
             ])}
@@ -986,6 +987,10 @@ export default function ViabilidadePecuariaCalculator() {
               <ResultLine
                 label="Rendimento de carcaça"
                 value={formatPercent(result.carcassYieldPercent)}
+              />
+              <ResultLine
+                label="Premissa carcaça inicial"
+                value="50% PV inicial"
               />
               <ResultLine
                 label="Peso de carcaça estimado"

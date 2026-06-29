@@ -1,6 +1,8 @@
 export type ProductionCostMode = "totalDaily" | "detailed";
 export type IntakeUnit = "percentLiveWeight" | "kgPerHeadDay";
 
+const INITIAL_CARCASS_YIELD_PERCENT = 50;
+
 export type CattleViabilityInput = {
   propertyName: string;
   lotSize: number;
@@ -28,6 +30,8 @@ export type CattleViabilityInput = {
 export type CattleViabilityResult = {
   initialArrobas: number;
   finalLiveArrobas: number;
+  initialCarcassWeightKg: number;
+  initialCarcassArrobas: number;
   finalCarcassWeightKg: number;
   finalCarcassArrobas: number;
   averageLiveWeightKg: number;
@@ -125,6 +129,9 @@ export function calculateCattleViability(
   const lotSize = Math.max(0, input.lotSize);
   const initialArrobas = input.initialLiveWeightKg / 30;
   const finalLiveArrobas = input.finalLiveWeightKg / 30;
+  const initialCarcassWeightKg =
+    input.initialLiveWeightKg * toDecimal(INITIAL_CARCASS_YIELD_PERCENT);
+  const initialCarcassArrobas = initialCarcassWeightKg / 15;
   const finalCarcassWeightKg =
     input.finalLiveWeightKg * toDecimal(input.carcassYieldPercent);
   const finalCarcassArrobas = finalCarcassWeightKg / 15;
@@ -135,7 +142,7 @@ export function calculateCattleViability(
   const periodMonths = safeDivide(periodDays, 30.4);
   const finalDate = addDays(input.initialDate, periodDays);
   const producedArrobas = safeDivide(
-    finalCarcassWeightKg - input.initialLiveWeightKg / 2,
+    finalCarcassWeightKg - initialCarcassWeightKg,
     15
   );
   const carcassYieldPercent = safeDivide(
@@ -143,7 +150,7 @@ export function calculateCattleViability(
     input.finalLiveWeightKg
   );
   const carcassDailyGainKg = safeDivide(
-    finalCarcassWeightKg - input.initialLiveWeightKg / 2,
+    finalCarcassWeightKg - initialCarcassWeightKg,
     periodDays
   );
   const averageLiveWeightKg =
@@ -223,6 +230,8 @@ export function calculateCattleViability(
   return {
     initialArrobas,
     finalLiveArrobas,
+    initialCarcassWeightKg,
+    initialCarcassArrobas,
     finalCarcassWeightKg,
     finalCarcassArrobas,
     averageLiveWeightKg,
