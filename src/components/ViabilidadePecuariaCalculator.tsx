@@ -604,17 +604,20 @@ export default function ViabilidadePecuariaCalculator() {
     marketEffectPerHead > 0
       ? {
           card: "bg-green-50",
+          border: "border-green-100",
           label: "text-green-700",
           value: "text-green-900",
         }
       : marketEffectPerHead < 0
         ? {
             card: "bg-red-50",
+            border: "border-red-100",
             label: "text-red-700",
             value: "text-red-900",
           }
         : {
             card: "bg-zinc-50",
+            border: "border-zinc-100",
             label: "text-zinc-500",
             value: "text-zinc-900",
           };
@@ -936,33 +939,35 @@ export default function ViabilidadePecuariaCalculator() {
                 </div>
               </div>
 
-              <div className="px-6 py-5">
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-lg bg-green-50 p-4">
-                    <p className="text-xs font-medium uppercase text-green-700">
+              <div className="px-5 py-5 sm:px-6">
+                <div className="grid gap-3 min-[420px]:grid-cols-3">
+                  <div className="flex min-h-28 flex-col justify-between rounded-lg border border-green-100 bg-green-50 p-3">
+                    <p className="text-[0.68rem] font-semibold uppercase leading-snug text-green-700">
                       Resultado da engorda
                     </p>
-                    <p className="mt-1 text-xl font-semibold text-green-900">
+                    <p className="mt-3 break-words text-lg font-semibold leading-tight text-green-900">
                       {formatCurrency(fatteningResultPerHead)}
                     </p>
                   </div>
-                  <div className={`rounded-lg p-4 ${marketEffectTone.card}`}>
+                  <div
+                    className={`flex min-h-28 flex-col justify-between rounded-lg border p-3 ${marketEffectTone.card} ${marketEffectTone.border}`}
+                  >
                     <p
-                      className={`text-xs font-medium uppercase ${marketEffectTone.label}`}
+                      className={`text-[0.68rem] font-semibold uppercase leading-snug ${marketEffectTone.label}`}
                     >
                       Efeito do mercado
                     </p>
                     <p
-                      className={`mt-1 text-xl font-semibold ${marketEffectTone.value}`}
+                      className={`mt-3 break-words text-lg font-semibold leading-tight ${marketEffectTone.value}`}
                     >
                       {formatCurrency(marketEffectPerHead)}
                     </p>
                   </div>
-                  <div className="rounded-lg bg-zinc-50 p-4">
-                    <p className="text-xs font-medium uppercase text-zinc-500">
+                  <div className="flex min-h-28 flex-col justify-between rounded-lg border border-zinc-100 bg-zinc-50 p-3">
+                    <p className="text-[0.68rem] font-semibold uppercase leading-snug text-zinc-500">
                       Resultado estimado/cabeça
                     </p>
-                    <p className="mt-1 text-xl font-semibold text-zinc-900">
+                    <p className="mt-3 break-words text-lg font-semibold leading-tight text-zinc-900">
                       {formatCurrency(result.netProfitPerHead)}
                     </p>
                   </div>
