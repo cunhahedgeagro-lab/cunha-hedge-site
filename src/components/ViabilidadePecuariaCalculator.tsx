@@ -43,6 +43,14 @@ function formatCurrency(value: number): string {
   }).format(value);
 }
 
+function formatSignedCurrency(value: number): string {
+  const absoluteValue = formatCurrency(Math.abs(value));
+
+  if (value > 0) return `+\u00A0${absoluteValue}`;
+  if (value < 0) return `−\u00A0${absoluteValue}`;
+  return absoluteValue;
+}
+
 function formatNumber(value: number, digits = 2): string {
   return new Intl.NumberFormat("pt-BR", {
     minimumFractionDigits: digits,
@@ -237,6 +245,33 @@ function tableRows(rows: Array<[string, string]>): string {
     .join("");
 }
 
+function resultTone(value: number) {
+  if (value > 0) {
+    return {
+      card: "bg-green-50",
+      border: "border-green-100",
+      label: "text-green-700",
+      value: "text-green-900",
+    };
+  }
+
+  if (value < 0) {
+    return {
+      card: "bg-red-50",
+      border: "border-red-100",
+      label: "text-red-700",
+      value: "text-red-900",
+    };
+  }
+
+  return {
+    card: "bg-zinc-50",
+    border: "border-zinc-100",
+    label: "text-zinc-500",
+    value: "text-zinc-900",
+  };
+}
+
 function buildReportHtml({
   input,
   result,
@@ -281,10 +316,22 @@ function buildReportHtml({
   const reportMarketEffectPerHead =
     result.finalCarcassArrobas *
     (input.saleArrobaPrice - input.initialArrobaPrice);
+  const reportFatteningResultClass =
+    reportFatteningResultPerHead > 0
+      ? "positive"
+      : reportFatteningResultPerHead < 0
+        ? "negative"
+        : "neutral";
   const reportMarketEffectClass =
     reportMarketEffectPerHead > 0
       ? "positive"
       : reportMarketEffectPerHead < 0
+        ? "negative"
+        : "neutral";
+  const reportEstimatedResultClass =
+    result.netProfitPerHead > 0
+      ? "positive"
+      : result.netProfitPerHead < 0
         ? "negative"
         : "neutral";
 
@@ -525,17 +572,17 @@ function buildReportHtml({
         <div class="metric-label">Preço de equilíbrio</div>
         <div class="metric-value">${escapeHtml(formatCurrency(result.breakevenPerSoldArroba))}</div>
       </div>
-      <div class="metric">
+      <div class="metric ${reportFatteningResultClass}">
         <div class="metric-label">Resultado da engorda</div>
-        <div class="metric-value">${escapeHtml(formatCurrency(reportFatteningResultPerHead))}</div>
+        <div class="metric-value">${escapeHtml(formatSignedCurrency(reportFatteningResultPerHead))}</div>
       </div>
       <div class="metric ${reportMarketEffectClass}">
         <div class="metric-label">Efeito do mercado</div>
-        <div class="metric-value">${escapeHtml(formatCurrency(reportMarketEffectPerHead))}</div>
+        <div class="metric-value">${escapeHtml(formatSignedCurrency(reportMarketEffectPerHead))}</div>
       </div>
-      <div class="metric">
+      <div class="metric ${reportEstimatedResultClass}">
         <div class="metric-label">Resultado estimado/cabeça</div>
-        <div class="metric-value">${escapeHtml(formatCurrency(result.netProfitPerHead))}</div>
+        <div class="metric-value">${escapeHtml(formatSignedCurrency(result.netProfitPerHead))}</div>
       </div>
     </section>
 
@@ -607,9 +654,9 @@ function buildReportHtml({
             ["Custo compra animais por cabeça", formatCurrency(result.animalPurchaseCostPerHead)],
             ["Receita por cabeça", formatCurrency(result.saleRevenuePerHead)],
             ["Investimento por cabeça", formatCurrency(result.investmentPerHead)],
-            ["Resultado da engorda/cabeça", formatCurrency(reportFatteningResultPerHead)],
-            ["Efeito do mercado/cabeça", formatCurrency(reportMarketEffectPerHead)],
-            ["Resultado estimado/cabeça", formatCurrency(result.netProfitPerHead)],
+            ["Resultado da engorda/cabeça", formatSignedCurrency(reportFatteningResultPerHead)],
+            ["Efeito do mercado/cabeça", formatSignedCurrency(reportMarketEffectPerHead)],
+            ["Resultado estimado/cabeça", formatSignedCurrency(result.netProfitPerHead)],
             ["Preço de equilíbrio da operação", `${formatCurrency(result.breakevenPerSoldArroba)}/@`],
             ["Margem sobre o equilíbrio", `${formatCurrency(result.salePriceSpreadToBreakeven)}/@`],
             ["Custo produção total", formatCurrency(result.totalProductionCost)],
@@ -650,27 +697,9 @@ export default function ViabilidadePecuariaCalculator() {
   const marketEffectPerHead =
     result.finalCarcassArrobas *
     (input.saleArrobaPrice - input.initialArrobaPrice);
-  const marketEffectTone =
-    marketEffectPerHead > 0
-      ? {
-          card: "bg-green-50",
-          border: "border-green-100",
-          label: "text-green-700",
-          value: "text-green-900",
-        }
-      : marketEffectPerHead < 0
-        ? {
-            card: "bg-red-50",
-            border: "border-red-100",
-            label: "text-red-700",
-            value: "text-red-900",
-          }
-        : {
-            card: "bg-zinc-50",
-            border: "border-zinc-100",
-            label: "text-zinc-500",
-            value: "text-zinc-900",
-          };
+  const fatteningResultTone = resultTone(fatteningResultPerHead);
+  const marketEffectTone = resultTone(marketEffectPerHead);
+  const estimatedResultTone = resultTone(result.netProfitPerHead);
   const intakeEquivalentPercent =
     result.averageLiveWeightKg > 0
       ? (result.estimatedIntakeKgDay / result.averageLiveWeightKg) * 100
@@ -991,12 +1020,18 @@ export default function ViabilidadePecuariaCalculator() {
 
               <div className="px-5 py-5 sm:px-6">
                 <div className="grid gap-3 min-[420px]:grid-cols-3">
-                  <div className="flex min-h-28 flex-col justify-between rounded-lg border border-green-100 bg-green-50 p-3">
-                    <p className="text-[0.68rem] font-semibold uppercase leading-snug text-green-700">
+                  <div
+                    className={`flex min-h-28 flex-col justify-between rounded-lg border p-3 ${fatteningResultTone.card} ${fatteningResultTone.border}`}
+                  >
+                    <p
+                      className={`text-[0.68rem] font-semibold uppercase leading-snug ${fatteningResultTone.label}`}
+                    >
                       Resultado da engorda
                     </p>
-                    <p className="mt-3 break-words text-lg font-semibold leading-tight text-green-900">
-                      {formatCurrency(fatteningResultPerHead)}
+                    <p
+                      className={`mt-3 break-words text-lg font-semibold leading-tight ${fatteningResultTone.value}`}
+                    >
+                      {formatSignedCurrency(fatteningResultPerHead)}
                     </p>
                   </div>
                   <div
@@ -1010,15 +1045,21 @@ export default function ViabilidadePecuariaCalculator() {
                     <p
                       className={`mt-3 break-words text-lg font-semibold leading-tight ${marketEffectTone.value}`}
                     >
-                      {formatCurrency(marketEffectPerHead)}
+                      {formatSignedCurrency(marketEffectPerHead)}
                     </p>
                   </div>
-                  <div className="flex min-h-28 flex-col justify-between rounded-lg border border-zinc-100 bg-zinc-50 p-3">
-                    <p className="text-[0.68rem] font-semibold uppercase leading-snug text-zinc-500">
+                  <div
+                    className={`flex min-h-28 flex-col justify-between rounded-lg border p-3 ${estimatedResultTone.card} ${estimatedResultTone.border}`}
+                  >
+                    <p
+                      className={`text-[0.68rem] font-semibold uppercase leading-snug ${estimatedResultTone.label}`}
+                    >
                       Resultado estimado/cabeça
                     </p>
-                    <p className="mt-3 break-words text-lg font-semibold leading-tight text-zinc-900">
-                      {formatCurrency(result.netProfitPerHead)}
+                    <p
+                      className={`mt-3 break-words text-lg font-semibold leading-tight ${estimatedResultTone.value}`}
+                    >
+                      {formatSignedCurrency(result.netProfitPerHead)}
                     </p>
                   </div>
                 </div>
