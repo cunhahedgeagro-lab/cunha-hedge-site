@@ -296,6 +296,10 @@ function buildReportHtml({
   <style>
     @page { margin: 16mm; }
     * { box-sizing: border-box; }
+    html {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
     body {
       margin: 0;
       color: #1f2937;
@@ -369,9 +373,13 @@ function buildReportHtml({
       background: #f7fdf9;
     }
     .metric.primary {
-      background: #28B463;
-      border-color: #28B463;
-      color: #ffffff;
+      background: #f0fdf4;
+      border-color: #22c55e;
+      color: #14532d;
+    }
+    .metric.primary .metric-label,
+    .metric.primary .metric-value {
+      color: #14532d;
     }
     .metric.positive {
       background: #f0fdf4;
