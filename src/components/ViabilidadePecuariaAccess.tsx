@@ -49,6 +49,18 @@ function updateRegistrationField<K extends keyof RegistrationForm>(
   return { ...current, [key]: value };
 }
 
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+  const areaCode = digits.slice(0, 2);
+  const firstPart = digits.slice(2, 7);
+  const secondPart = digits.slice(7, 11);
+
+  if (digits.length === 0) return "";
+  if (digits.length <= 2) return `(${areaCode}`;
+  if (digits.length <= 7) return `(${areaCode}) ${firstPart}`;
+  return `(${areaCode}) ${firstPart}-${secondPart}`;
+}
+
 function FieldLabel({
   children,
   required = false,
@@ -295,10 +307,12 @@ export default function ViabilidadePecuariaAccess() {
                   <Input
                     value={registration.whatsapp}
                     onChange={(event) =>
-                      updateRegistration("whatsapp", event.target.value)
+                      updateRegistration("whatsapp", formatPhone(event.target.value))
                     }
                     inputMode="tel"
                     autoComplete="tel"
+                    maxLength={15}
+                    placeholder="(00) 00000-0000"
                     required
                   />
                 </label>
