@@ -593,6 +593,31 @@ export default function ViabilidadePecuariaCalculator() {
   );
   const [formResetKey, setFormResetKey] = React.useState(0);
   const result = React.useMemo(() => calculateCattleViability(input), [input]);
+  const fatteningResultPerHead =
+    (result.finalCarcassArrobas - result.initialArrobas) *
+      input.initialArrobaPrice -
+    result.productionCostPerHead;
+  const marketEffectPerHead =
+    result.finalCarcassArrobas *
+    (input.saleArrobaPrice - input.initialArrobaPrice);
+  const marketEffectTone =
+    marketEffectPerHead > 0
+      ? {
+          card: "bg-green-50",
+          label: "text-green-700",
+          value: "text-green-900",
+        }
+      : marketEffectPerHead < 0
+        ? {
+            card: "bg-red-50",
+            label: "text-red-700",
+            value: "text-red-900",
+          }
+        : {
+            card: "bg-zinc-50",
+            label: "text-zinc-500",
+            value: "text-zinc-900",
+          };
   const intakeEquivalentPercent =
     result.averageLiveWeightKg > 0
       ? (result.estimatedIntakeKgDay / result.averageLiveWeightKg) * 100
@@ -902,7 +927,7 @@ export default function ViabilidadePecuariaCalculator() {
                   </span>
                   <div>
                     <p className="text-sm text-white/80">
-                      Breakeven da operação
+                      Preço de equilíbrio da operação
                     </p>
                     <p className="text-3xl font-semibold">
                       {formatCurrency(result.breakevenPerSoldArroba)}
@@ -912,21 +937,33 @@ export default function ViabilidadePecuariaCalculator() {
               </div>
 
               <div className="px-6 py-5">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-3">
                   <div className="rounded-lg bg-green-50 p-4">
                     <p className="text-xs font-medium uppercase text-green-700">
-                      Lucro líquido/cab
+                      Resultado da engorda
                     </p>
                     <p className="mt-1 text-xl font-semibold text-green-900">
-                      {formatCurrency(result.netProfitPerHead)}
+                      {formatCurrency(fatteningResultPerHead)}
+                    </p>
+                  </div>
+                  <div className={`rounded-lg p-4 ${marketEffectTone.card}`}>
+                    <p
+                      className={`text-xs font-medium uppercase ${marketEffectTone.label}`}
+                    >
+                      Efeito do mercado
+                    </p>
+                    <p
+                      className={`mt-1 text-xl font-semibold ${marketEffectTone.value}`}
+                    >
+                      {formatCurrency(marketEffectPerHead)}
                     </p>
                   </div>
                   <div className="rounded-lg bg-zinc-50 p-4">
                     <p className="text-xs font-medium uppercase text-zinc-500">
-                      Spread venda
+                      Resultado estimado/cabeça
                     </p>
                     <p className="mt-1 text-xl font-semibold text-zinc-900">
-                      {formatCurrency(result.salePriceSpreadToBreakeven)}
+                      {formatCurrency(result.netProfitPerHead)}
                     </p>
                   </div>
                 </div>
