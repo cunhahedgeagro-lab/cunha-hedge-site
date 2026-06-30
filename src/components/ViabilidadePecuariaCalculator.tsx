@@ -274,6 +274,19 @@ function buildReportHtml({
           ["Diária calculada", formatCurrency(result.detailedProductionCostPerHeadDay)],
           ["Custo no ciclo por cabeça", formatCurrency(result.productionCostPerHead)],
         ];
+  const reportFatteningResultPerHead =
+    (result.finalCarcassArrobas - result.initialArrobas) *
+      input.initialArrobaPrice -
+    result.productionCostPerHead;
+  const reportMarketEffectPerHead =
+    result.finalCarcassArrobas *
+    (input.saleArrobaPrice - input.initialArrobaPrice);
+  const reportMarketEffectClass =
+    reportMarketEffectPerHead > 0
+      ? "positive"
+      : reportMarketEffectPerHead < 0
+        ? "negative"
+        : "neutral";
 
   return `<!doctype html>
 <html lang="pt-BR">
@@ -359,6 +372,30 @@ function buildReportHtml({
       background: #28B463;
       border-color: #28B463;
       color: #ffffff;
+    }
+    .metric.positive {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+    .metric.negative {
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+    .metric.neutral {
+      background: #f8fafc;
+      border-color: #e5e7eb;
+    }
+    .metric.positive .metric-label,
+    .metric.positive .metric-value {
+      color: #166534;
+    }
+    .metric.negative .metric-label,
+    .metric.negative .metric-value {
+      color: #991b1b;
+    }
+    .metric.neutral .metric-label,
+    .metric.neutral .metric-value {
+      color: #374151;
     }
     .metric-label {
       font-size: 11px;
@@ -477,20 +514,20 @@ function buildReportHtml({
 
     <section class="summary">
       <div class="metric primary">
-        <div class="metric-label">Breakeven da @</div>
+        <div class="metric-label">Preço de equilíbrio</div>
         <div class="metric-value">${escapeHtml(formatCurrency(result.breakevenPerSoldArroba))}</div>
       </div>
       <div class="metric">
-        <div class="metric-label">Lucro líquido final</div>
-        <div class="metric-value">${escapeHtml(formatCurrency(result.totalNetProfit))}</div>
+        <div class="metric-label">Resultado da engorda</div>
+        <div class="metric-value">${escapeHtml(formatCurrency(reportFatteningResultPerHead))}</div>
+      </div>
+      <div class="metric ${reportMarketEffectClass}">
+        <div class="metric-label">Efeito do mercado</div>
+        <div class="metric-value">${escapeHtml(formatCurrency(reportMarketEffectPerHead))}</div>
       </div>
       <div class="metric">
-        <div class="metric-label">Rentabilidade total</div>
-        <div class="metric-value">${escapeHtml(formatPercent(result.totalReturnPercent))}</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Spread venda x breakeven</div>
-        <div class="metric-value">${escapeHtml(formatCurrency(result.salePriceSpreadToBreakeven))}</div>
+        <div class="metric-label">Resultado estimado/cabeça</div>
+        <div class="metric-value">${escapeHtml(formatCurrency(result.netProfitPerHead))}</div>
       </div>
     </section>
 
@@ -562,12 +599,17 @@ function buildReportHtml({
             ["Custo compra animais por cabeça", formatCurrency(result.animalPurchaseCostPerHead)],
             ["Receita por cabeça", formatCurrency(result.saleRevenuePerHead)],
             ["Investimento por cabeça", formatCurrency(result.investmentPerHead)],
-            ["Lucro líquido por cabeça", formatCurrency(result.netProfitPerHead)],
+            ["Resultado da engorda/cabeça", formatCurrency(reportFatteningResultPerHead)],
+            ["Efeito do mercado/cabeça", formatCurrency(reportMarketEffectPerHead)],
+            ["Resultado estimado/cabeça", formatCurrency(result.netProfitPerHead)],
+            ["Preço de equilíbrio da operação", `${formatCurrency(result.breakevenPerSoldArroba)}/@`],
+            ["Margem sobre o equilíbrio", `${formatCurrency(result.salePriceSpreadToBreakeven)}/@`],
             ["Custo produção total", formatCurrency(result.totalProductionCost)],
             ["Receita total", formatCurrency(result.totalRevenue)],
             ["Investimento total", formatCurrency(result.totalInvestment)],
             ["Lucro bruto total", formatCurrency(result.totalGrossProfit)],
-            ["Lucro líquido final", formatCurrency(result.totalNetProfit)],
+            ["Resultado estimado final", formatCurrency(result.totalNetProfit)],
+            ["Rentabilidade total", formatPercent(result.totalReturnPercent)],
             ["Rentabilidade mensal", formatPercent(result.monthlyReturnPercent)],
           ])}
         </tbody>
