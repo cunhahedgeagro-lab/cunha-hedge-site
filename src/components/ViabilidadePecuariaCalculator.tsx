@@ -46,7 +46,7 @@ function formatCurrency(value: number): string {
 function formatSignedCurrency(value: number): string {
   const absoluteValue = formatCurrency(Math.abs(value));
 
-  if (value > 0) return `+\u00A0${absoluteValue}`;
+  if (value > 0) return absoluteValue;
   if (value < 0) return `−\u00A0${absoluteValue}`;
   return absoluteValue;
 }
@@ -1019,45 +1019,45 @@ export default function ViabilidadePecuariaCalculator() {
               </div>
 
               <div className="px-5 py-5 sm:px-6">
-                <div className="grid gap-3 min-[420px]:grid-cols-3">
+                <div className="space-y-2.5">
                   <div
-                    className={`flex min-h-28 flex-col justify-between rounded-lg border p-3 ${fatteningResultTone.card} ${fatteningResultTone.border}`}
+                    className={`grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border px-4 py-3 ${fatteningResultTone.card} ${fatteningResultTone.border}`}
                   >
                     <p
-                      className={`text-[0.68rem] font-semibold uppercase leading-snug ${fatteningResultTone.label}`}
+                      className={`text-xs font-semibold uppercase leading-snug ${fatteningResultTone.label}`}
                     >
                       Resultado da engorda
                     </p>
                     <p
-                      className={`mt-3 break-words text-lg font-semibold leading-tight ${fatteningResultTone.value}`}
+                      className={`whitespace-nowrap text-right text-lg font-semibold leading-tight ${fatteningResultTone.value}`}
                     >
                       {formatSignedCurrency(fatteningResultPerHead)}
                     </p>
                   </div>
                   <div
-                    className={`flex min-h-28 flex-col justify-between rounded-lg border p-3 ${marketEffectTone.card} ${marketEffectTone.border}`}
+                    className={`grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border px-4 py-3 ${marketEffectTone.card} ${marketEffectTone.border}`}
                   >
                     <p
-                      className={`text-[0.68rem] font-semibold uppercase leading-snug ${marketEffectTone.label}`}
+                      className={`text-xs font-semibold uppercase leading-snug ${marketEffectTone.label}`}
                     >
                       Efeito do mercado
                     </p>
                     <p
-                      className={`mt-3 break-words text-lg font-semibold leading-tight ${marketEffectTone.value}`}
+                      className={`whitespace-nowrap text-right text-lg font-semibold leading-tight ${marketEffectTone.value}`}
                     >
                       {formatSignedCurrency(marketEffectPerHead)}
                     </p>
                   </div>
                   <div
-                    className={`flex min-h-28 flex-col justify-between rounded-lg border p-3 ${estimatedResultTone.card} ${estimatedResultTone.border}`}
+                    className={`grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border px-4 py-3 ${estimatedResultTone.card} ${estimatedResultTone.border}`}
                   >
                     <p
-                      className={`text-[0.68rem] font-semibold uppercase leading-snug ${estimatedResultTone.label}`}
+                      className={`text-xs font-semibold uppercase leading-snug ${estimatedResultTone.label}`}
                     >
                       Resultado estimado/cabeça
                     </p>
                     <p
-                      className={`mt-3 break-words text-lg font-semibold leading-tight ${estimatedResultTone.value}`}
+                      className={`whitespace-nowrap text-right text-lg font-semibold leading-tight ${estimatedResultTone.value}`}
                     >
                       {formatSignedCurrency(result.netProfitPerHead)}
                     </p>
