@@ -544,8 +544,7 @@ function buildReportHtml({
               ["Preço @ inicial", formatCurrency(input.initialArrobaPrice)],
               ["Preço @ venda", formatCurrency(input.saleArrobaPrice)],
               ["Seguro", `${formatCurrency(input.insuranceCostPerArroba)}/@`],
-              ["Valor financiado animais", formatCurrency(input.financedAnimalsValue)],
-              ["Valor financiado suplementação", formatCurrency(input.financedSupplementValue)],
+              ["Valor financiado", formatCurrency(input.financedValue)],
               ["Taxa de juros ao ano", `${formatNumber(input.annualInterestRatePercent, 2)}%`],
               ["Juro total", formatCurrency(result.totalInterest)],
               ["Juro por cabeça", formatCurrency(result.interestCostPerHead)],
@@ -874,19 +873,12 @@ export default function ViabilidadePecuariaCalculator() {
                 blankWhenZero
               />
               <NumberField
-                label="Financiado animais"
-                value={input.financedAnimalsValue}
-                onChange={(value) => update("financedAnimalsValue", value)}
+                label="Valor financiado"
+                value={input.financedValue}
+                onChange={(value) => update("financedValue", value)}
                 step="100"
                 suffix="R$"
                 blankWhenZero
-              />
-              <NumberField
-                label="Financiado suplementação"
-                value={input.financedSupplementValue}
-                onChange={(value) => update("financedSupplementValue", value)}
-                step="100"
-                suffix="R$"
               />
               <NumberField
                 label="Juros ao ano"

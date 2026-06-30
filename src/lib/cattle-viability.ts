@@ -22,8 +22,7 @@ export type CattleViabilityInput = {
   operationalCostPerHeadDay: number;
   pastureCostPerHeadDay: number;
   insuranceCostPerArroba: number;
-  financedAnimalsValue: number;
-  financedSupplementValue: number;
+  financedValue: number;
   annualInterestRatePercent: number;
 };
 
@@ -96,8 +95,7 @@ export const defaultCattleViabilityInput: CattleViabilityInput = {
   operationalCostPerHeadDay: 0.6,
   pastureCostPerHeadDay: 1,
   insuranceCostPerArroba: 0,
-  financedAnimalsValue: 0,
-  financedSupplementValue: 0,
+  financedValue: 0,
   annualInterestRatePercent: 0,
 };
 
@@ -189,8 +187,7 @@ export function calculateCattleViability(
     productionCostPerHead,
     producedArrobas
   );
-  const totalFinancedValue =
-    input.financedAnimalsValue + input.financedSupplementValue;
+  const totalFinancedValue = input.financedValue;
   const yearFraction = safeDivide(periodDays, 365);
   const periodInterestRatePercent =
     yearFraction * input.annualInterestRatePercent;
