@@ -326,25 +326,6 @@ function buildReportHtml({
           ["Custo de oportunidade total", formatCurrency(result.totalOpportunityCost)],
         ]
       : [];
-  const reportFatteningResultPerHead =
-    (result.finalCarcassArrobas - result.initialArrobas) *
-      input.initialArrobaPrice -
-    result.productionCostPerHead;
-  const reportMarketEffectPerHead =
-    result.finalCarcassArrobas *
-    (input.saleArrobaPrice - input.initialArrobaPrice);
-  const reportFatteningResultClass =
-    reportFatteningResultPerHead > 0
-      ? "positive"
-      : reportFatteningResultPerHead < 0
-        ? "negative"
-        : "neutral";
-  const reportMarketEffectClass =
-    reportMarketEffectPerHead > 0
-      ? "positive"
-      : reportMarketEffectPerHead < 0
-        ? "negative"
-        : "neutral";
   const reportEstimatedResultClass =
     result.netProfitPerHead > 0
       ? "positive"
@@ -426,7 +407,7 @@ function buildReportHtml({
     }
     .summary {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       margin: 22px 0;
     }
@@ -589,14 +570,6 @@ function buildReportHtml({
         <div class="metric-label">Preço de equilíbrio</div>
         <div class="metric-value">${escapeHtml(formatCurrency(result.breakevenPerSoldArroba))}</div>
       </div>
-      <div class="metric ${reportFatteningResultClass}">
-        <div class="metric-label">Resultado da engorda</div>
-        <div class="metric-value">${escapeHtml(formatSignedCurrency(reportFatteningResultPerHead))}</div>
-      </div>
-      <div class="metric ${reportMarketEffectClass}">
-        <div class="metric-label">Efeito do mercado</div>
-        <div class="metric-value">${escapeHtml(formatSignedCurrency(reportMarketEffectPerHead))}</div>
-      </div>
       <div class="metric ${reportEstimatedResultClass}">
         <div class="metric-label">Resultado estimado/cabeça</div>
         <div class="metric-value">${escapeHtml(formatSignedCurrency(result.netProfitPerHead))}</div>
@@ -679,8 +652,6 @@ function buildReportHtml({
             ["Receita por cabeça", formatCurrency(result.saleRevenuePerHead)],
             ["Investimento por cabeça", formatCurrency(result.investmentPerHead)],
             ...opportunityResultRows,
-            ["Resultado da engorda/cabeça", formatSignedCurrency(reportFatteningResultPerHead)],
-            ["Efeito do mercado/cabeça", formatSignedCurrency(reportMarketEffectPerHead)],
             ["Resultado estimado/cabeça", formatSignedCurrency(result.netProfitPerHead)],
             ["Preço de equilíbrio da operação", `${formatCurrency(result.breakevenPerSoldArroba)}/@`],
             ["Margem sobre o equilíbrio", `${formatCurrency(result.salePriceSpreadToBreakeven)}/@`],
@@ -715,15 +686,6 @@ export default function ViabilidadePecuariaCalculator() {
   );
   const [formResetKey, setFormResetKey] = React.useState(0);
   const result = React.useMemo(() => calculateCattleViability(input), [input]);
-  const fatteningResultPerHead =
-    (result.finalCarcassArrobas - result.initialArrobas) *
-      input.initialArrobaPrice -
-    result.productionCostPerHead;
-  const marketEffectPerHead =
-    result.finalCarcassArrobas *
-    (input.saleArrobaPrice - input.initialArrobaPrice);
-  const fatteningResultTone = resultTone(fatteningResultPerHead);
-  const marketEffectTone = resultTone(marketEffectPerHead);
   const estimatedResultTone = resultTone(result.netProfitPerHead);
   const intakeEquivalentPercent =
     result.averageLiveWeightKg > 0
@@ -1101,34 +1063,6 @@ export default function ViabilidadePecuariaCalculator() {
 
               <div className="px-5 py-5 sm:px-6">
                 <div className="space-y-2.5">
-                  <div
-                    className={`grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border px-4 py-3 ${fatteningResultTone.card} ${fatteningResultTone.border}`}
-                  >
-                    <p
-                      className={`text-xs font-semibold uppercase leading-snug ${fatteningResultTone.label}`}
-                    >
-                      Resultado da engorda
-                    </p>
-                    <p
-                      className={`whitespace-nowrap text-right text-lg font-semibold leading-tight ${fatteningResultTone.value}`}
-                    >
-                      {formatSignedCurrency(fatteningResultPerHead)}
-                    </p>
-                  </div>
-                  <div
-                    className={`grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border px-4 py-3 ${marketEffectTone.card} ${marketEffectTone.border}`}
-                  >
-                    <p
-                      className={`text-xs font-semibold uppercase leading-snug ${marketEffectTone.label}`}
-                    >
-                      Efeito do mercado
-                    </p>
-                    <p
-                      className={`whitespace-nowrap text-right text-lg font-semibold leading-tight ${marketEffectTone.value}`}
-                    >
-                      {formatSignedCurrency(marketEffectPerHead)}
-                    </p>
-                  </div>
                   <div
                     className={`grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border px-4 py-3 ${estimatedResultTone.card} ${estimatedResultTone.border}`}
                   >
