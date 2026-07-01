@@ -309,6 +309,23 @@ function buildReportHtml({
           ["Diária calculada", formatCurrency(result.detailedProductionCostPerHeadDay)],
           ["Custo no ciclo por cabeça", formatCurrency(result.productionCostPerHead)],
         ];
+  const opportunityRows: Array<[string, string]> = input.considerOpportunityCost
+    ? [
+        ["Custo de oportunidade", "Considerado"],
+        ["Base capital próprio", formatCurrency(result.totalOpportunityCostBase)],
+        ["Taxa de oportunidade anual", `${formatNumber(input.opportunityAnnualRatePercent, 2)}%`],
+        ["Taxa proporcional ao período", `${formatNumber(result.opportunityPeriodRatePercent, 2)}%`],
+        ["Custo de oportunidade total", formatCurrency(result.totalOpportunityCost)],
+        ["Custo de oportunidade por cabeça", formatCurrency(result.opportunityCostPerHead)],
+      ]
+    : [["Custo de oportunidade", "Não considerado"]];
+  const opportunityResultRows: Array<[string, string]> =
+    input.considerOpportunityCost
+      ? [
+          ["Custo de oportunidade/cabeça", formatCurrency(result.opportunityCostPerHead)],
+          ["Custo de oportunidade total", formatCurrency(result.totalOpportunityCost)],
+        ]
+      : [];
   const reportFatteningResultPerHead =
     (result.finalCarcassArrobas - result.initialArrobas) *
       input.initialArrobaPrice -
@@ -647,6 +664,13 @@ function buildReportHtml({
     </div>
 
     <section class="section">
+      <h2>Custo de Oportunidade</h2>
+      <table>
+        <tbody>${tableRows(opportunityRows)}</tbody>
+      </table>
+    </section>
+
+    <section class="section">
       <h2>Resultado Econômico</h2>
       <table>
         <tbody>
@@ -654,6 +678,7 @@ function buildReportHtml({
             ["Custo compra animais por cabeça", formatCurrency(result.animalPurchaseCostPerHead)],
             ["Receita por cabeça", formatCurrency(result.saleRevenuePerHead)],
             ["Investimento por cabeça", formatCurrency(result.investmentPerHead)],
+            ...opportunityResultRows,
             ["Resultado da engorda/cabeça", formatSignedCurrency(reportFatteningResultPerHead)],
             ["Efeito do mercado/cabeça", formatSignedCurrency(reportMarketEffectPerHead)],
             ["Resultado estimado/cabeça", formatSignedCurrency(result.netProfitPerHead)],
@@ -970,31 +995,87 @@ export default function ViabilidadePecuariaCalculator() {
           </Section>
 
           <Section title="Crédito e Hedge">
-            <div className="grid gap-4 md:grid-cols-3">
-              <NumberField
-                label="Seguro"
-                value={input.insuranceCostPerArroba}
-                onChange={(value) => update("insuranceCostPerArroba", value)}
-                step="0.01"
-                suffix="R$/@"
-                blankWhenZero
-              />
-              <NumberField
-                label="Valor financiado"
-                value={input.financedValue}
-                onChange={(value) => update("financedValue", value)}
-                step="100"
-                suffix="R$"
-                blankWhenZero
-              />
-              <NumberField
-                label="Juros ao ano"
-                value={input.annualInterestRatePercent}
-                onChange={(value) => update("annualInterestRatePercent", value)}
-                step="0.01"
-                suffix="%"
-                blankWhenZero
-              />
+            <div className="grid gap-5">
+              <div className="grid gap-4 md:grid-cols-3">
+                <NumberField
+                  label="Seguro"
+                  value={input.insuranceCostPerArroba}
+                  onChange={(value) => update("insuranceCostPerArroba", value)}
+                  step="0.01"
+                  suffix="R$/@"
+                  blankWhenZero
+                />
+                <NumberField
+                  label="Valor financiado"
+                  value={input.financedValue}
+                  onChange={(value) => update("financedValue", value)}
+                  step="100"
+                  suffix="R$"
+                  blankWhenZero
+                />
+                <NumberField
+                  label="Juros ao ano"
+                  value={input.annualInterestRatePercent}
+                  onChange={(value) => update("annualInterestRatePercent", value)}
+                  step="0.01"
+                  suffix="%"
+                  blankWhenZero
+                />
+              </div>
+
+              <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+                <label className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    checked={input.considerOpportunityCost}
+                    onChange={(event) =>
+                      update("considerOpportunityCost", event.target.checked)
+                    }
+                    className="mt-1 size-4 rounded border-zinc-300 accent-primary"
+                  />
+                  <span>
+                    <span className="block text-sm font-semibold text-zinc-900">
+                      Considerar custo de oportunidade do capital próprio
+                    </span>
+                    <span className="mt-1 block text-sm leading-relaxed text-zinc-600">
+                      Calculado sobre compra dos animais, produção e seguro,
+                      abatendo o valor financiado.
+                    </span>
+                  </span>
+                </label>
+
+                {input.considerOpportunityCost && (
+                  <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_1.2fr]">
+                    <NumberField
+                      label="Taxa de oportunidade anual"
+                      value={input.opportunityAnnualRatePercent}
+                      onChange={(value) =>
+                        update("opportunityAnnualRatePercent", value)
+                      }
+                      step="0.01"
+                      suffix="%"
+                      blankWhenZero
+                    />
+                    <div className="rounded-lg bg-white px-4 py-2 shadow-xs">
+                      <ResultLine
+                        label="Base capital próprio"
+                        value={formatCurrency(result.totalOpportunityCostBase)}
+                      />
+                      <ResultLine
+                        label="Taxa no período"
+                        value={`${formatNumber(
+                          result.opportunityPeriodRatePercent,
+                          2
+                        )}%`}
+                      />
+                      <ResultLine
+                        label="Custo oportunidade"
+                        value={formatCurrency(result.totalOpportunityCost)}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </Section>
         </div>
@@ -1077,6 +1158,12 @@ export default function ViabilidadePecuariaCalculator() {
                     label="Custo de produção total"
                     value={formatCurrency(result.totalProductionCost)}
                   />
+                  {input.considerOpportunityCost && (
+                    <ResultLine
+                      label="Custo oportunidade total"
+                      value={formatCurrency(result.totalOpportunityCost)}
+                    />
+                  )}
                   <ResultLine
                     label="Lucro líquido final"
                     value={formatCurrency(result.totalNetProfit)}
@@ -1128,6 +1215,12 @@ export default function ViabilidadePecuariaCalculator() {
                 label="Juro por cabeça"
                 value={formatCurrency(result.interestCostPerHead)}
               />
+              {input.considerOpportunityCost && (
+                <ResultLine
+                  label="Custo oportunidade/cab"
+                  value={formatCurrency(result.opportunityCostPerHead)}
+                />
+              )}
             </CardContent>
           </Card>
         </aside>

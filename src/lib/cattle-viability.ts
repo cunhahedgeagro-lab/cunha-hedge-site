@@ -24,6 +24,8 @@ export type CattleViabilityInput = {
   insuranceCostPerArroba: number;
   financedValue: number;
   annualInterestRatePercent: number;
+  considerOpportunityCost: boolean;
+  opportunityAnnualRatePercent: number;
 };
 
 export type CattleViabilityResult = {
@@ -55,6 +57,8 @@ export type CattleViabilityResult = {
   productionCostPerHead: number;
   productionCostPerProducedArroba: number;
   interestCostPerHead: number;
+  opportunityCostBasePerHead: number;
+  opportunityCostPerHead: number;
   investmentPerHead: number;
   netProfitPerHead: number;
   totalReturnPercent: number;
@@ -74,6 +78,9 @@ export type CattleViabilityResult = {
   yearFraction: number;
   periodInterestRatePercent: number;
   totalInterest: number;
+  totalOpportunityCostBase: number;
+  opportunityPeriodRatePercent: number;
+  totalOpportunityCost: number;
 };
 
 export const defaultCattleViabilityInput: CattleViabilityInput = {
@@ -97,6 +104,8 @@ export const defaultCattleViabilityInput: CattleViabilityInput = {
   insuranceCostPerArroba: 0,
   financedValue: 0,
   annualInterestRatePercent: 0,
+  considerOpportunityCost: false,
+  opportunityAnnualRatePercent: 0,
 };
 
 function safeDivide(numerator: number, denominator: number): number {
@@ -193,24 +202,40 @@ export function calculateCattleViability(
     yearFraction * input.annualInterestRatePercent;
   const totalInterest = totalFinancedValue * toDecimal(periodInterestRatePercent);
   const interestCostPerHead = safeDivide(totalInterest, lotSize);
+  const capitalRequirementPerHead =
+    animalPurchaseCostPerHead + productionCostPerHead + totalInsuranceCostPerHead;
+  const totalCapitalRequirement = lotSize * capitalRequirementPerHead;
+  const totalOpportunityCostBase = input.considerOpportunityCost
+    ? Math.max(0, totalCapitalRequirement - totalFinancedValue)
+    : 0;
+  const opportunityCostBasePerHead = safeDivide(totalOpportunityCostBase, lotSize);
+  const opportunityPeriodRatePercent = input.considerOpportunityCost
+    ? yearFraction * input.opportunityAnnualRatePercent
+    : 0;
+  const totalOpportunityCost =
+    totalOpportunityCostBase * toDecimal(opportunityPeriodRatePercent);
+  const opportunityCostPerHead = safeDivide(totalOpportunityCost, lotSize);
   const investmentPerHead =
     animalPurchaseCostPerHead +
     productionCostPerHead +
     interestCostPerHead +
-    totalInsuranceCostPerHead;
+    totalInsuranceCostPerHead +
+    opportunityCostPerHead;
   const netProfitPerHead =
     saleRevenuePerHead -
     animalPurchaseCostPerHead -
     productionCostPerHead -
     totalInsuranceCostPerHead -
-    interestCostPerHead;
+    interestCostPerHead -
+    opportunityCostPerHead;
   const totalReturnPercent = safeDivide(netProfitPerHead, investmentPerHead);
   const monthlyReturnPercent = safeDivide(totalReturnPercent, periodMonths);
   const breakevenPerSoldArroba = safeDivide(
     animalPurchaseCostPerHead +
       productionCostPerHead +
       totalInsuranceCostPerHead +
-      interestCostPerHead,
+      interestCostPerHead +
+      opportunityCostPerHead,
     finalCarcassArrobas
   );
   const salePriceSpreadToBreakeven =
@@ -253,6 +278,8 @@ export function calculateCattleViability(
     productionCostPerHead,
     productionCostPerProducedArroba,
     interestCostPerHead,
+    opportunityCostBasePerHead,
+    opportunityCostPerHead,
     investmentPerHead,
     netProfitPerHead,
     totalReturnPercent,
@@ -272,5 +299,8 @@ export function calculateCattleViability(
     yearFraction,
     periodInterestRatePercent,
     totalInterest,
+    totalOpportunityCostBase,
+    opportunityPeriodRatePercent,
+    totalOpportunityCost,
   };
 }
